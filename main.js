@@ -66,3 +66,8 @@ const createCharacterList = (char) => {
     listDiv.append(charDiv);
     charDiv.append(charPic, characterlist);
 }
+window.addEventListener("click", event => {
+    const audio = document.querySelector("audio");
+    audio.volume = 0.2;
+    audio.play();
+});
