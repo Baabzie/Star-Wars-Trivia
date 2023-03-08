@@ -5,8 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="main.js" defer></script>
 </head>
 <body>
+    <main>
+        <div class="character-select-div">
+            <label for="characterSelectGood">Select light side character</label>
+            <select id="characterSelectGood">
+                <option value="1">Luke Skywalker</option>
+                <option value="5">Leia Organa</option>
+                <option value="14">Han Solo</option>
+                <option value="13">Chewbacca</option>
+                <option value="10">Obi-Wan Kenobi</option>
+                <option value="20">Yoda</option>
+                <option value="2">C-3PO</option>
+                <option value="3">R2-D2</option>
+            </select>
+            <label for="characterSelectEvil">Select dark side character</label>
+            <select id="characterSelectEvil">
+                <option value="4">Darth Vader</option>
+                <option value="21">Palpatine</option>
+                <option value="16">Jabba the Hutt</option>
+                <option value="22">Boba Fett</option>
+                <option value="12">Grand Moff Tarkin</option>
+                <option value="15">Greedo</option>
+            </select>
+        </div>
+        <button id="compareBtn">Compare characters!"</button>
+    </main>
     
 </body>
 </html>
