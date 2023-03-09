@@ -1,0 +1,26 @@
+html {
+  height: 100vh;
+}
+
+.list-div {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+}
+.list-div .char-div .char-pic {
+  width: 259px;
+  height: 259px;
+}
+.list-div .char-div ul {
+  list-style: none;
+  padding: 0;
+}
+
+.compare-list-div {
+  display: flex;
+  justify-content: center;
+}
+.compare-list-div ul {
+  list-style: none;
+}/*# sourceMappingURL=style.css.map */

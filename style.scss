@@ -1,0 +1,30 @@
+html {
+    height: 100vh;
+}
+
+.list-div {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    .char-div {
+
+        .char-pic {
+            width: 259px;
+            height: 259px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+    }
+}
+
+.compare-list-div {
+    display: flex;
+    justify-content: center;
+
+    ul {
+        list-style: none;
+    }
+}
