@@ -19,7 +19,9 @@ html {
 
 .compare-list-div {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .compare-list-div ul {
   list-style: none;
