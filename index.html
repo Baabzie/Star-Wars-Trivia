@@ -10,37 +10,47 @@
 </head>
 <body>
     <main>
-        <div class="character-select-div">
-            <label for="characterSelectGood">Select light side character</label>
-            <select id="characterSelectGood">
-                <option value="1">Luke Skywalker</option>
-                <option value="5">Leia Organa</option>
-                <option value="14">Han Solo</option>
-                <option value="13">Chewbacca</option>
-                <option value="10">Obi-Wan Kenobi</option>
-                <option value="20">Yoda</option>
-                <option value="2">C-3PO</option>
-                <option value="3">R2-D2</option>
-            </select>
-            <label for="characterSelectEvil">Select dark side character</label>
-            <select id="characterSelectEvil">
-                <option value="4">Darth Vader</option>
-                <option value="21">Palpatine</option>
-                <option value="16">Jabba the Hutt</option>
-                <option value="22">Boba Fett</option>
-                <option value="12">Grand Moff Tarkin</option>
-                <option value="15">Greedo</option>
-                <option value="20">Yoda</option>
-            </select>
+        <h1>Compare Star Wars Characters</h1>
+        <div class="selection-div">
+            <div class="character-select-div">
+                <select id="characterSelectGood">
+                    <option value="1">Luke Skywalker</option>
+                    <option value="5">Leia Organa</option>
+                    <option value="14">Han Solo</option>
+                    <option value="13">Chewbacca</option>
+                    <option value="10">Obi-Wan Kenobi</option>
+                    <option value="20">Yoda</option>
+                    <option value="2">C-3PO</option>
+                    <option value="3">R2-D2</option>
+                </select>
+                <select id="characterSelectEvil">
+                    <option value="4">Darth Vader</option>
+                    <option value="21">Palpatine</option>
+                    <option value="16">Jabba the Hutt</option>
+                    <option value="22">Boba Fett</option>
+                    <option value="12">Grand Moff Tarkin</option>
+                    <option value="15">Greedo</option>
+                    <option value="20">Yoda</option>
+                </select>
+            </div>
+            <button id="compareBtn">Compare characters</button>
         </div>
-        <button id="compareBtn">Compare characters</button>
         <div class="list-div" id="listDiv">
 
         </div>
         <div class="compare-list-div" id="compareListDiv">
+
+        </div>
+        <div class="extra-function-div" id="extraFunctionDiv">
             
         </div>
-        <audio src="assets/sounds/Cantina Song.mp3"></audio>
+        <audio id="cantina" src="assets/sounds/Cantina Song.mp3"></audio>
+        <audio id="t0" src="assets/sounds/Tie Fly 1.mp3"></audio>
+        <audio id="t1" src="assets/sounds/Tie Fly 2.mp3"></audio>
+        <audio id="t2" src="assets/sounds/Tie Fly 3.mp3"></audio>
+        <audio id="t3" src="assets/sounds/Tie Fly 4.mp3"></audio>
+        <audio id="t4" src="assets/sounds/Tie Fly 5.mp3"></audio>
+        <audio id="t5" src="assets/sounds/Tie Fly 6.mp3"></audio>
     </main>
     
 </body>

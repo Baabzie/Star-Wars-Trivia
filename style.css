@@ -1,5 +1,61 @@
 html {
   height: 100vh;
+  background-color: rgb(42, 47, 47);
+}
+
+* {
+  color: white;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.selection-div {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.selection-div select {
+  height: 30px;
+  width: 150px;
+  text-align: center;
+  border-radius: 12px;
+  border: none;
+  color: white;
+}
+.selection-div #characterSelectGood {
+  background-color: rgb(0, 157, 255);
+}
+.selection-div #characterSelectGood:hover {
+  cursor: pointer;
+  background-color: rgb(41, 138, 198);
+}
+.selection-div #characterSelectEvil {
+  background-color: rgb(255, 0, 8);
+}
+.selection-div #characterSelectEvil:hover {
+  cursor: pointer;
+  background-color: rgb(184, 36, 41);
+}
+.selection-div button {
+  height: 30px;
+  width: 150px;
+  text-align: center;
+  border-radius: 12px;
+  border: none;
+  background-color: rgb(155, 189, 209);
+}
+.selection-div button:hover {
+  cursor: pointer;
+  background-color: rgb(119, 139, 151);
 }
 
 .list-div {
@@ -8,11 +64,20 @@ html {
   display: flex;
   justify-content: space-around;
 }
+.list-div .char-div h2 {
+  text-align: center;
+}
 .list-div .char-div .char-pic {
+  border-radius: 12px;
   width: 259px;
   height: 259px;
+  background-color: rgb(114, 111, 111);
 }
 .list-div .char-div ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   list-style: none;
   padding: 0;
 }
@@ -23,6 +88,59 @@ html {
   justify-content: center;
   align-items: center;
 }
+.compare-list-div h2 {
+  margin-bottom: 0;
+}
 .compare-list-div ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   list-style: none;
+  padding: 0;
+}
+
+.extra-function-div {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.extra-function-div .message-div {
+  background-color: white;
+  border-radius: 12px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.extra-function-div .message-div p {
+  color: black;
+  width: 100;
+  text-align: center;
+}
+.extra-function-div .btn-div {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 50px;
+}
+.extra-function-div .btn-div div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 30%;
+}
+.extra-function-div .btn-div div button {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  border-radius: 12px;
+  border: none;
+  background-color: rgb(155, 189, 209);
+}
+.extra-function-div .btn-div div button:hover {
+  cursor: pointer;
+  background-color: rgb(119, 139, 151);
 }/*# sourceMappingURL=style.css.map */

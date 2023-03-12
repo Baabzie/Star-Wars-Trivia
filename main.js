@@ -1,6 +1,6 @@
 //Class so we can generate characters.
 class Character {
-    constructor(name, gender, height, mass, hairColor, skinColor, eyeColor, movies, homeworld) {
+    constructor(name, gender, height, mass, hairColor, skinColor, eyeColor, movies, homeworld, starships, vehicles) {
         this.name = firstLetterUpperCase(name);
         this.gender = firstLetterUpperCase(gender);
         this.height = height;
@@ -10,11 +10,53 @@ class Character {
         this.eyeColor = firstLetterUpperCase(eyeColor);;
         this.movies = movies;
         this.homeworld = homeworld;
+        this.starships = starships;
+        this.vehicles = vehicles;
         this.pictureURL = `assets/charPic/${name}.png`;
     }
     showFirstApperanceData = async () => {
         let firstMovieData = await getData(this.movies[0]);
         return `${this.name} first appeared ${firstMovieData.release_date} in ${firstMovieData.title}.`;
+    }
+    showMostExpensiveVehicle = async () => {
+        let allVehicleArray = [];
+        for (const starship of this.starships) {
+            let starshipData = await getData(starship);
+            allVehicleArray.push(starshipData);
+        }
+        for (const vehicle of this.vehicles) {
+            let vehicleData = await getData(vehicle);
+            allVehicleArray.push(vehicleData);
+        }
+        let allVehicleNamePriceArray = [];
+        allVehicleArray.forEach((vehicle) => {
+            let vehicleName = vehicle.name;
+            let vehiclePrice = vehicle.cost_in_credits;
+            if (vehiclePrice === "unknown") {
+                vehiclePrice = 0;
+            }
+            else {
+                vehiclePrice = Number(vehiclePrice);
+            }
+            let vehicleObj = {
+                name: vehicleName,
+                price: vehiclePrice,
+            };
+            allVehicleNamePriceArray.push(vehicleObj);
+        })
+        allVehicleNamePriceArray.sort((a, b) => b.price - a.price);
+        if (allVehicleNamePriceArray.length === 0) {
+            return `${this.name} has never been seen pilot a starship or drive a vehicle.`
+        }
+        else if (allVehicleArray.length === 1) {
+            return `${this.name} has only been seen using one vehicle or starship and that is the ${allVehicleNamePriceArray[0].name}.`
+        }
+        else if (allVehicleArray[0].price === 0 ){
+            return `${this.name} has only been seen using vehicles or starships that we don't know the price of.`
+        }
+        else {
+            return `The most expensive vehicle or starship we seen ${this.name} use is the ${allVehicleNamePriceArray[0].name}.`
+        }
     }
     showCommonMovies = async (comparedChar) => {
         let charMoviesArray = [];
@@ -28,7 +70,6 @@ class Character {
             comparedCharMoviesArray.push(movieData.title);
         }
         let sameMoviesArray = charMoviesArray.filter(title => comparedCharMoviesArray.includes(title));
-        console.log(sameMoviesArray)
         if (sameMoviesArray.length === 0) {
             return `${this.name} and ${comparedChar.name} do not appear in the same movies.`;
         }
@@ -78,6 +119,15 @@ class Character {
     }
 }
 
+//Function to randomly play audio (TIE fighter sound).
+const tieSound = () => {
+    let randomNumber = Math.floor(Math.random() * 6);
+    console.log(randomNumber);
+    let sound = document.getElementById("t" + randomNumber);
+     sound.volume = 0.1;
+     sound.play();
+}
+
 // Function to get uppcase in beginning of string.
 const firstLetterUpperCase = (word) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
@@ -88,21 +138,22 @@ const compareBtn = document.getElementById("compareBtn");
 
 //"Main"-function that runs when you press the "Compare characters"-button.
 compareBtn.addEventListener("click", async () => {
+    tieSound();
     document.getElementById("listDiv").innerHTML = "";
     document.getElementById("compareListDiv").innerHTML = "";
+    document.getElementById("extraFunctionDiv").innerHTML = "";
     let goodCharacter = document.getElementById("characterSelectGood");
     let evilCharacter = document.getElementById("characterSelectEvil");
     let goodCharData = await getData(`https://swapi.dev/api/people/${goodCharacter.value}`);
     let evilCharData = await getData(`https://swapi.dev/api/people/${evilCharacter.value}`);
-    console.log(goodCharData);
     let goodChar = createCharacter(goodCharData);
     let evilChar = createCharacter(evilCharData);
     console.log(goodChar);
+    console.log(evilChar);
     createCharacterList(goodChar);
     createCharacterList(evilChar);
     createCompareCharacterList(goodChar, evilChar);
-    console.log(await goodChar.showCommonMovies(evilChar));
-    console.log(await goodChar.showCommonHomeworld(evilChar));
+    createExtraFunction(goodChar, evilChar);
 })
 
 //Function to get data from URL.
@@ -114,9 +165,9 @@ async function getData(url) {
 
 //Function to create characters with our class "Character".
 const createCharacter = (charData) => {
-    let { name, gender, height, mass, hair_color: hairColor, skin_color: skinColor, eye_color: eyeColor, films: movies, homeworld, } = charData;
+    let { name, gender, height, mass, hair_color: hairColor, skin_color: skinColor, eye_color: eyeColor, films: movies, homeworld, starships, vehicles, } = charData;
     
-    let char = new Character(name, gender, height, mass, hairColor, skinColor, eyeColor, movies, homeworld)
+    let char = new Character(name, gender, height, mass, hairColor, skinColor, eyeColor, movies, homeworld, starships, vehicles)
     return char;
 }
 
@@ -147,7 +198,10 @@ const createCharacterList = (char) => {
 
 //Function for comparing a number from each character and returning the name of the character with the highest number. If the numbers are the same it returns the string "Same".
 const compareCharactersNumbers = (goodName, goodNum, evilName, evilNum) => {
-    if (Number(goodNum) > Number(evilNum)){
+    if ((goodNum === "unknown") || (evilNum === "unknown")){
+        return "error";
+    }
+    else if (Number(goodNum) > Number(evilNum)){
         return goodName;
     }
     else if (Number(goodNum) < Number(evilNum)) {
@@ -187,6 +241,9 @@ const createCompareCharacterList = (goodChar, evilChar) => {
     let heaviestString = `The heaviest of the two characters is ${heaviestChar}.`;
     if (heaviestChar === "Same") {
         heaviestString = `The two characters weight the same.`;
+    }
+    else if (heaviestChar === "error") {
+        heaviestString = `At least one character is of unknown weight.`;
     }
 
     //Make a string of who appeard in most movies.
@@ -228,15 +285,92 @@ const createCompareCharacterList = (goodChar, evilChar) => {
     compareListDiv.append(comparisonHeader, comparelist);
 }
 
+// Function that adds a message box and buttons to interact with it.
+const createExtraFunction = (goodChar, evilChar) => {
+    let extraFunctionDiv = document.getElementById("extraFunctionDiv");
+    let messageDiv = document.createElement("div");
+    messageDiv.classList.add("message-div");
+
+    let btnDiv = document.createElement("div");
+    btnDiv.classList.add("btn-div");
+
+    let compareBtnDiv = document.createElement("div");
+    let sameMoviesBtn = document.createElement("button");
+    sameMoviesBtn.innerText = `In which movies did both ${goodChar.name} and ${evilChar.name} appear?`
+    sameMoviesBtn.addEventListener("click", async () => {
+        tieSound();
+        messageDiv.innerHTML = "";
+        let message = document.createElement("p");
+        message.innerText = `${await goodChar.showCommonMovies(evilChar)}`;
+        messageDiv.append(message);
+    });
+
+    let homeworldBtn = document.createElement("button");
+    homeworldBtn.innerText = `What is the homeworlds of ${goodChar.name} and ${evilChar.name}?`
+    homeworldBtn.addEventListener("click", async () => {
+        tieSound();
+        messageDiv.innerHTML = "";
+        let message = document.createElement("p");
+        message.innerText = `${await goodChar.showCommonHomeworld(evilChar)}`;
+        messageDiv.append(message);
+    });
+
+    compareBtnDiv.append(sameMoviesBtn,homeworldBtn);
+
+    let goodCharBtnDiv = document.createElement("div");
+    let goodCharfirstMovieBtn = document.createElement("button");
+    goodCharfirstMovieBtn.innerText = `In what movie did ${goodChar.name} first appear?`
+    goodCharfirstMovieBtn.addEventListener("click", async () => {
+        tieSound();
+        messageDiv.innerHTML = "";
+        let message = document.createElement("p");
+        message.innerText = `${await goodChar.showFirstApperanceData()}`;
+        messageDiv.append(message);
+    });
+
+    let goodCharExpensiveVehicleBtn = document.createElement("button");
+    goodCharExpensiveVehicleBtn.innerText = `What is ${goodChar.name}'s most expensive vehicle?`
+    goodCharExpensiveVehicleBtn.addEventListener("click", async () => {
+        tieSound();
+        messageDiv.innerHTML = "";
+        let message = document.createElement("p");
+        message.innerText = `${await goodChar.showMostExpensiveVehicle()}`;
+        messageDiv.append(message);
+    });
+
+    goodCharBtnDiv.append(goodCharfirstMovieBtn, goodCharExpensiveVehicleBtn);
 
 
+    let evilCharBtnDiv = document.createElement("div");
+    let evilCharfirstMovieBtn = document.createElement("button");
+    evilCharfirstMovieBtn.innerText = `In what movie did ${evilChar.name} first appear?`
+    evilCharfirstMovieBtn.addEventListener("click", async () => {
+        tieSound();
+        messageDiv.innerHTML = "";
+        let message = document.createElement("p");
+        message.innerText = `${await evilChar.showFirstApperanceData()}`;
+        messageDiv.append(message);
+    });
 
+    let evilCharExpensiveVehicleBtn = document.createElement("button");
+    evilCharExpensiveVehicleBtn.innerText = `What is ${evilChar.name}'s most expensive vehicle?`
+    evilCharExpensiveVehicleBtn.addEventListener("click", async () => {
+        tieSound();
+        messageDiv.innerHTML = "";
+        let message = document.createElement("p");
+        message.innerText = `${await evilChar.showMostExpensiveVehicle()}`;
+        messageDiv.append(message);
+    });
 
+    evilCharBtnDiv.append(evilCharfirstMovieBtn, evilCharExpensiveVehicleBtn);
 
+    btnDiv.append(goodCharBtnDiv,compareBtnDiv,evilCharBtnDiv)
+    extraFunctionDiv.append(messageDiv,btnDiv);
+}
 
-
-// window.addEventListener("click", event => {
-//     const audio = document.querySelector("audio");
-//     audio.volume = 0.2;
-//     audio.play();
-// });
+// Function for adding annoying music as soon as the user clicks anywhere on the site (yes I know it's bad UX design.)
+window.addEventListener("click", () => {
+    const cantina = document.getElementById("cantina");
+     cantina.volume = 0.06;
+     cantina.play();
+ });
