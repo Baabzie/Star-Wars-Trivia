@@ -139,13 +139,13 @@ const compareBtn = document.getElementById("compareBtn");
 //"Main"-function that runs when you press the "Compare characters"-button.
 compareBtn.addEventListener("click", async () => {
     tieSound();
-    document.getElementById("listDiv").innerHTML = "";
-    document.getElementById("compareListDiv").innerHTML = "";
-    document.getElementById("extraFunctionDiv").innerHTML = "";
     let goodCharacter = document.getElementById("characterSelectGood");
     let evilCharacter = document.getElementById("characterSelectEvil");
     let goodCharData = await getData(`https://swapi.dev/api/people/${goodCharacter.value}`);
     let evilCharData = await getData(`https://swapi.dev/api/people/${evilCharacter.value}`);
+    document.getElementById("listDiv").innerHTML = "";
+    document.getElementById("compareListDiv").innerHTML = "";
+    document.getElementById("extraFunctionDiv").innerHTML = "";
     let goodChar = createCharacter(goodCharData);
     let evilChar = createCharacter(evilCharData);
     console.log(goodChar);
